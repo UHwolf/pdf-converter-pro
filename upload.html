@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Convert & Download | PDF Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { margin: 0; font-family: 'Arial', sans-serif; background: #f0f2f5; display: flex; flex-direction: column; align-items: center; }
+        .topbar { background: #1e5eff; color: white; padding: 15px; width: 100%; text-align: center; font-weight: bold; font-size: 20px; }
+        .container { max-width: 500px; width: 90%; margin: 60px auto; background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; }
+        #fileInput { margin: 25px 0; width: 100%; padding: 20px; border: 3px dashed #1e5eff; border-radius: 12px; cursor: pointer; background: #f9f9f9; }
+        button { background: #1e5eff; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; font-size: 16px; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+
+        /* --- LOADING BAR STYLE --- */
+        .progress-box { width: 100%; background: white; border: 4px solid #000; border-radius: 50px; margin-top: 30px; display: none; height: 35px; overflow: hidden; box-sizing: border-box; }
+        .bar-fill { width: 0%; height: 100%; background-color: #00ca85; transition: width 0.4s ease; }
+        #statusText { margin-top: 15px; font-family: 'Arial Black', sans-serif; font-size: 18px; color: #000; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="topbar">PDF Converter Pro</div>
+
+<div class="container">
+    <h2 id="toolTitle">Upload File</h2>
+    
+    <form id="uploadForm">
+        <input type="hidden" name="type" id="typeInput">
+        <input type="file" name="file" id="fileInput" required>
+        <button type="submit" id="submitBtn">CONVERT & DOWNLOAD</button>
+    </form>
+
+    <div id="statusText">LOADING...</div>
+    <div class="progress-box" id="progressBox">
+        <div class="bar-fill" id="barFill"></div>
+    </div>
+</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const type = params.get("type"); 
+    const fileInput = document.getElementById("fileInput");
+    const toolTitle = document.getElementById("toolTitle");
+    const typeInput = document.getElementById("typeInput");
+
+    typeInput.value = type;
+
+    // --- FULL FILTERS LOGIC ---
+    if (type === "image" || type === "imagepdf") {
+        fileInput.accept = "image/png, image/jpeg, image/jpg";
+        toolTitle.innerText = "Image to PDF";
+    } 
+    else if (type === "wordpdf" || type === "office") {
+        fileInput.accept = ".doc, .docx";
+        toolTitle.innerText = "Word to PDF";
+    } 
+    else if (type === "excelpdf") {
+        fileInput.accept = ".xls, .xlsx";
+        toolTitle.innerText = "Excel to PDF";
+    } 
+    else if (type === "pptpdf") {
+        fileInput.accept = ".ppt, .pptx";
+        toolTitle.innerText = "PowerPoint to PDF";
+    } 
+    else if (type === "pdfword" || type === "pdfexcel" || type === "pdfppt") {
+        fileInput.accept = ".pdf";
+        toolTitle.innerText = type.replace("pdf", "PDF to ").toUpperCase();
+    }
+
+    document.getElementById("uploadForm").onsubmit = async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById("submitBtn");
+        const bar = document.getElementById("barFill");
+        const box = document.getElementById("progressBox");
+        const status = document.getElementById("statusText");
+
+        btn.disabled = true;
+        box.style.display = "block";
+        status.style.display = "block";
+        status.innerText = "LOADING...";
+
+        const formData = new FormData(e.target);
+
+        try {
+            let width = 10;
+            const sim = setInterval(() => {
+                if (width < 90) { width += 2; bar.style.width = width + "%"; }
+            }, 500);
+
+            const response = await fetch('/upload', { method: 'POST', body: formData });
+            const data = await response.json();
+            clearInterval(sim);
+
+            if (data.url) {
+                bar.style.width = "100%";
+                status.innerText = "COMPLETE!";
+                window.location.href = data.url;
+                setTimeout(() => {
+                    btn.disabled = false;
+                    box.style.display = "none";
+                    status.style.display = "none";
+                    bar.style.width = "0%";
+                }, 5000);
+            }
+        } catch (error) {
+            status.innerText = "ERROR";
+            btn.disabled = false;
+        }
+    };
+</script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PDF Converter Pro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #222;
+}
+
+.topbar {
+    background: #1e5eff;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topbar .title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.topbar .lang select {
+    padding: 6px;
+    border-radius: 6px;
+    border: none;
+}
+
+.hero {
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.hero h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: gray;
+    font-size: 14px;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.card .info {
+    display: flex;
+    flex-direction: column;
+}
+
+.card .info h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.card .info p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: gray;
+}
+
+.card button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    background: #1e5eff;
+    color: white;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+    <div class="title" id="title">PDF Converter Pro</div>
+
+    <div class="lang">
+        <select onchange="changeLang(this.value)">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+        </select>
+    </div>
+</div>
+
+<div class="hero">
+    <h1 id="h1">File Conversion Platform</h1>
+    <p id="subtitle">Convert documents between PDF, Word, Excel, PowerPoint and Images</p>
+</div>
+
+<div class="container">
+
+    <div class="card">
+        <div class="info">
+            <h3>PDF to Word</h3>
+            <p>Convert PDF to Word document</p>
+        </div>
+        <button onclick="goToUpload('pdfword')">Select</button>
+    </div>
+
+    <div class="card">
+        <div class="info">
+            <h3>PDF to Excel</h3>
+            <p>Convert PDF to Excel file</p>
+        </div>
+        <button onclick="goToUpload('pdfexcel')">Select</button>
+    </div>
+
+    <div class="card">
+        <div class="info">
+            <h3>PDF to PowerPoint</h3>
+            <p>Convert PDF to presentation</p>
+        </div>
+        <button onclick="goToUpload('pdfppt')">Select</button>
+    </div>
+
+    <div class="card">
+        <div class="info">
+            <h3>PDF to Image</h3>
+            <p>Convert PDF pages to images</p>
+        </div>
+        <button onclick="goToUpload('pdfimage')">Select</button>
+    </div>
+
+    <div class="card">
+        <div class="info">
+            <h3>Word to PDF</h3>
+            <p>Convert Word to PDF</p>
+        </div>
+        <button onclick="goToUpload('wordpdf')">Select</button>
+    </div>
+
+    <div class="card">
+        <div class="info">
+            <h3>Excel to PDF</h3>
+            <p>Convert Excel to PDF</p>
+        </div>
+        <button onclick="goToUpload('excelpdf')">Select</button>
+    </div>
+
+    <div class="card">
+        <div class="info">
+            <h3>PowerPoint to PDF</h3>
+            <p>Convert PowerPoint to PDF</p>
+        </div>
+        <button onclick="goToUpload('pptpdf')">Select</button>
+    </div>
+
+    <div class="card">
+        <div class="info">
+            <h3>Image to PDF</h3>
+            <p>Convert Image to PDF</p>
+        </div>
+        <button onclick="goToUpload('imagepdf')">Select</button>
+    </div>
+
+</div>
+
+<script>
+function goToUpload(type) {
+    window.location.href = "/upload.html?type=" + type;
+}
+
+const translations = {
+    en: {
+        title: "PDF Converter Pro",
+        h1: "File Conversion Platform",
+        subtitle: "Convert documents between PDF, Word, Excel, PowerPoint and Images"
+    },
+    es: {
+        title: "Convertidor de PDF",
+        h1: "Plataforma de conversión",
+        subtitle: "Convierte documentos entre PDF, Word, Excel, PowerPoint e imágenes"
+    },
+    fr: {
+        title: "Convertisseur PDF",
+        h1: "Plateforme de conversion",
+        subtitle: "Convertir PDF, Word, Excel, PowerPoint et images"
+    }
+};
+
+function changeLang(lang) {
+    document.getElementById("title").innerText = translations[lang].title;
+    document.getElementById("h1").innerText = translations[lang].h1;
+    document.getElementById("subtitle").innerText = translations[lang].subtitle;
+}
+</script>
+
+</body>
+</html>
