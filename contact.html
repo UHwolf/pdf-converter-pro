@@ -1,16 +1,126 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Contact - PDF Converter Pro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f7fb;
+    color: #222;
+}
+
+.topbar {
+    background: #1e5eff;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topbar .title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.topbar .lang select {
+    padding: 6px;
+    border-radius: 6px;
+    border: none;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    margin-top: 40px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+h1 {
+    margin-top: 0;
+}
+
+a {
+    color: #1e5eff;
+    text-decoration: none;
+    font-weight: bold;
+}
+</style>
+
+</head>
+
 <body>
 
-<h1>Contact</h1>
+<div class="topbar">
+    <div class="title" id="title">PDF Converter Pro</div>
 
-<p>If you have any questions, feel free to contact us:</p>
+    <div class="lang">
+        <select onchange="changeLang(this.value)">
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+        </select>
+    </div>
+</div>
 
-<p>Email: <a href="mailto:converterpdfpro@gmail.com">
-converterpdfpro@gmail.com
-</a></p>
+<div class="container">
 
-<a href="/">Back</a>
+    <h1 id="h1">Contact</h1>
+
+    <p id="text">
+        If you have any questions, feel free to contact us:
+    </p>
+
+    <p>
+        Email:
+        <a href="mailto:converterpdfpro@gmail.com">
+            converterpdfpro@gmail.com
+        </a>
+    </p>
+
+    <a href="/">← Back to Home</a>
+
+</div>
+
+<script>
+const translations = {
+    en: {
+        title: "PDF Converter Pro",
+        h1: "Contact",
+        text: "If you have any questions, feel free to contact us:"
+    },
+    es: {
+        title: "Convertidor de PDF",
+        h1: "Contacto",
+        text: "Si tienes preguntas, contáctanos:"
+    },
+    fr: {
+        title: "Convertisseur PDF",
+        h1: "Contact",
+        text: "Si vous avez des questions, contactez-nous:"
+    }
+};
+
+function changeLang(lang) {
+    localStorage.setItem("lang", lang);
+
+    document.getElementById("title").innerText = translations[lang].title;
+    document.getElementById("h1").innerText = translations[lang].h1;
+    document.getElementById("text").innerText = translations[lang].text;
+}
+
+window.onload = function () {
+    let lang = localStorage.getItem("lang") || "en";
+    changeLang(lang);
+};
+</script>
 
 </body>
 </html>
