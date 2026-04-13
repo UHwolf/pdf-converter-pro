@@ -94,4 +94,16 @@ app.post("/upload", upload.single("file"), async (req, res) => {
     }
 });
 
+app.get("/about", (req, res) => {
+    res.sendFile(__dirname + "/about.html");
+});
+
+app.get("/contact", (req, res) => {
+    res.sendFile(__dirname + "/contact.html");
+});
+
+app.get("/privacy", (req, res) => {
+    res.sendFile(__dirname + "/privacy.html");
+});
+
 app.listen(3000, () => console.log("Servidor en: http://localhost:3000"));
